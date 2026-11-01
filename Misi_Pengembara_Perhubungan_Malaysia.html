@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Misi Pengembara Perhubungan Malaysia</title>
+<style>
+:root{
+  --ink:#3d2b20;--brown:#70401f;--wood:#a85f2c;--gold:#ffd45c;
+  --cream:#fff7df;--green:#70c96e;--deep:#287b52;--sky:#83d7f4;
+  --shadow:0 9px 0 rgba(91,48,20,.25),0 16px 24px rgba(35,66,42,.18);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#d8efc9;font-family:"Trebuchet MS",Arial,sans-serif;color:var(--ink)}
+button{font:inherit;cursor:pointer}
+#mppm{width:100%;max-width:1200px;margin:auto;overflow:hidden;border:6px solid #875026;border-radius:26px;background:#8bd67f;position:relative;isolation:isolate}
+#mppm .screen{display:none;min-height:780px;position:relative;overflow:hidden;padding:72px 18px 32px}
+#mppm .screen.active{display:block}
+#mppm .wood{background:linear-gradient(120deg,#a95b27,#f8cf7c 48%,#a75a28);border:4px solid #70401f;border-radius:22px;box-shadow:0 7px 0 #633719,0 12px 18px #54351c44}
+#mppm .btn{border:3px solid #78431f;border-radius:22px;padding:13px 23px;background:linear-gradient(#fff08d,#ffbd32);color:#573018;font-weight:1000;font-size:17px;box-shadow:0 6px 0 #74401c;transition:.18s}
+#mppm .btn:hover{transform:translateY(-3px);filter:brightness(1.04)}
+#mppm .btn:active{transform:translateY(3px);box-shadow:0 2px 0 #74401c}
+#mppm .btn.secondary{background:linear-gradient(#fff9df,#f5d99b)}
+#mppm .btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
+#mppm .small{padding:8px 13px;font-size:13px;border-width:2px}
+#mppm .topbar{position:absolute;z-index:20;top:10px;left:12px;right:12px;display:flex;justify-content:space-between;align-items:center;gap:8px;pointer-events:none}
+#mppm .topbar>*{pointer-events:auto}
+#mppm .stats{display:flex;gap:7px;flex-wrap:wrap}
+#mppm .pill{background:#fff7dc;border:3px solid #895027;border-radius:30px;padding:7px 12px;font-size:14px;font-weight:1000;box-shadow:0 3px 0 #74401c}
+#mppm .music-btn{background:#fff4c8;border:3px solid #895027;border-radius:20px;padding:8px 12px;font-weight:900;color:#543018}
+#mppm .hero{min-height:790px;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:75px 18px 35px;background:linear-gradient(#65c4f0 0%,#b9edfa 36%,#9be08b 60%,#55b85f 100%)}
+#mppm .hero:before,#mppm .hero:after{content:"";position:absolute;bottom:-90px;width:75%;height:260px;background:#58b45c;border-radius:50%;z-index:0}
+#mppm .hero:before{left:-20%;background:#70c96e}
+#mppm .hero:after{right:-25%;background:#3d9f56}
+#mppm .hero>*{position:relative;z-index:1}
+#mppm .cloud{position:absolute!important;font-size:62px;opacity:.8;animation:drift 9s ease-in-out infinite alternate}
+#mppm .cloud.c1{top:13%;left:5%}.cloud.c2{top:27%;right:6%;animation-delay:-4s}
+@keyframes drift{to{transform:translateX(32px)}}
+#mppm .hero-title{padding:20px 28px;color:#603318;text-shadow:2px 3px #fff;font-size:clamp(27px,5vw,50px);line-height:1.16;max-width:850px;transform:perspective(700px) rotateX(4deg)}
+#mppm .hero-art{font-size:clamp(68px,12vw,120px);margin:23px 0;filter:drop-shadow(0 12px 4px #285a3870);animation:float 2.2s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-12px) rotate(-2deg)}}
+#mppm .hero-sub{background:#fff7dc;border:3px solid #a65e2b;border-radius:20px;padding:14px 20px;max-width:650px;font-weight:800;line-height:1.55;box-shadow:var(--shadow);margin:5px 0 25px}
+#mppm .map-screen{background:linear-gradient(145deg,#b7ed92,#69c66b 65%,#a9e68b)}
+#mppm .section-title{text-align:center;margin:0 auto 12px;padding:12px 24px;width:max-content;max-width:96%;font-size:clamp(22px,4vw,34px)}
+#mppm .instruction{max-width:700px;margin:12px auto 18px;text-align:center;background:#fff7dc;border:3px solid #9b5b2c;border-radius:17px;padding:11px;font-weight:800}
+#mppm .map-area{position:relative;width:min(100%,900px);height:610px;margin:auto;border:5px solid #498c4a;border-radius:28px;overflow:hidden;background:linear-gradient(160deg,#a8e7f4 0 25%,#9cdb85 25% 100%);box-shadow:inset 0 0 0 5px #ffffff66,var(--shadow)}
+#mppm .map-area:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 15% 20%,#fff9 0 4%,transparent 4.5%),radial-gradient(ellipse at 83% 75%,#fff8 0 3%,transparent 3.5%);background-size:150px 130px,180px 160px}
+#mppm .hill{position:absolute;bottom:-70px;width:55%;height:230px;border-radius:50%;background:#60bd63}
+#mppm .hill.h1{left:-15%}.hill.h2{right:-12%;background:#4ba957;bottom:-100px}
+#mppm .map-road{position:absolute;left:4%;top:46%;width:92%;height:90px;background:#555b61;border:8px solid #f3e6b7;border-radius:50%;transform:rotate(-12deg);box-shadow:0 8px 0 #34434a}
+#mppm .map-road:after{content:"";position:absolute;left:0;right:0;top:50%;border-top:5px dashed #ffeaa2}
+#mppm .map-river{position:absolute;right:-3%;top:-20%;width:105px;height:115%;background:#55c8e9;border:9px solid #b8f1f1;border-radius:50%;transform:rotate(13deg)}
+#mppm .map-deco{position:absolute;font-size:38px;filter:drop-shadow(0 4px 2px #345b3766)}
+#mppm .mission{position:absolute;z-index:5;width:220px;min-height:175px;padding:12px 10px;border:4px solid #905020;border-radius:23px;background:linear-gradient(145deg,#fff9e6,#ffdf9d);box-shadow:0 7px 0 #74401e,0 12px 15px #345b3755;text-align:center;transition:.2s;cursor:pointer}
+#mppm .mission:hover{transform:translateY(-7px) scale(1.03)}
+#mppm .mission .pic{height:78px;display:grid;place-items:center;font-size:55px;border:3px solid #d59c4c;border-radius:15px;background:linear-gradient(#bceeff,#e5f5c7);margin-bottom:7px}
+#mppm .mission h3{margin:4px 0;font-size:17px}.mission p{margin:5px 0;font-size:12px;font-weight:800}
+#mppm .mission .num{position:absolute;top:-14px;left:-12px;width:37px;height:37px;display:grid;place-items:center;background:#ffd34f;border:3px solid #805020;border-radius:50%;font-weight:1000}
+#mppm .mission.locked{filter:grayscale(.75);opacity:.72}
+#mppm .mission.locked:after{content:"🔒 TERKUNCI";position:absolute;inset:0;background:#263b2c99;border-radius:17px;color:#fff;display:grid;place-items:center;font-size:19px;font-weight:1000}
+#mppm .mission.done{background:linear-gradient(#f7ffd7,#b8f39c);border-color:#288b4b}
+#mppm .mission.done:before{content:"⭐ SELESAI";position:absolute;right:6px;top:5px;background:#258c48;color:white;border-radius:15px;padding:4px 7px;font-size:9px;z-index:7}
+#mppm #m1{top:5%;left:4%}#mppm #m2{top:7%;right:4%}#mppm #m3{bottom:7%;left:4%}#mppm #m4{bottom:7%;right:4%}
+#mppm .map-player{position:absolute;z-index:8;left:46%;top:43%;font-size:48px;filter:drop-shadow(0 5px 3px #3337);animation:float 2s infinite}
+#mppm .map-footer{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin:18px auto 0}
+#mppm .lesson-screen{background:linear-gradient(145deg,#8edb8b,#c5efa2)}
+#mppm .lesson-head{text-align:center;max-width:780px;margin:12px auto 22px;padding:15px}
+#mppm .lesson-head .bigicon{font-size:55px}
+#mppm .lesson-head h2{font-size:clamp(22px,4vw,31px);margin:5px}
+#mppm .lesson-grid{max-width:900px;margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+#mppm .lesson-card{background:#fff7df;border:4px solid #a45c2b;border-radius:22px;padding:18px;box-shadow:0 6px 0 #75421f;line-height:1.65}
+#mppm .lesson-card h3{margin:0 0 10px;color:#88471f;font-size:20px}
+#mppm .lesson-card li{margin:5px 0}
+#mppm .lesson-picture{font-size:66px;text-align:center;background:#dff2c9;border-radius:16px;padding:12px;margin-bottom:12px}
+#mppm .fact{background:#e4f3ce;border-radius:13px;padding:12px;margin-top:12px}
+#mppm .actions{text-align:center;margin:25px auto 8px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+#mppm .quiz-screen{background:linear-gradient(#a9e8a2,#6ac978)}
+#mppm .quiz-box{max-width:720px;margin:25px auto;background:#fff6dc;border:5px solid #985326;border-radius:26px;padding:23px;box-shadow:0 9px 0 #71401e;text-align:center}
+#mppm .quiz-icon{font-size:58px}
+#mppm .quiz-box h2{color:#80421d;margin:5px}
+#mppm .progress{height:15px;background:#e4d2a6;border-radius:20px;overflow:hidden;margin:15px 0}
+#mppm .progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,#56b95f,#a5e85e);transition:.3s}
+#mppm .answers{display:grid;gap:10px;margin:18px 0}
+#mppm .answer{width:100%;text-align:left;border:3px solid #d49a4b;border-radius:15px;padding:13px;background:#fff;color:#53331f;font-weight:800;font-size:15px;transition:.15s}
+#mppm .answer:hover:not(:disabled){background:#ffedb5;transform:translateX(3px)}
+#mppm .answer.correct{background:#d9f5cb;border-color:#3a9d52}
+#mppm .answer.wrong{background:#ffe0d7;border-color:#cf634e}
+#mppm .feedback{min-height:48px;font-weight:900;font-size:16px;padding:8px}
+#mppm .final-screen{background:linear-gradient(#7acdf3,#b5ec9a);text-align:center;align-items:center;justify-content:center;flex-direction:column}
+#mppm .final-screen.active{display:flex}
+#mppm .certificate{width:min(95%,680px);background:#fff7df;border:10px double #a7672b;border-radius:25px;padding:25px 20px;box-shadow:var(--shadow)}
+#mppm .trophy{font-size:85px;animation:float 2s infinite}
+#mppm .certificate h1{color:#985020;font-size:clamp(28px,5vw,42px)}
+#mppm .award{display:inline-block;background:#e5f4ce;border:2px solid #6b9f48;border-radius:16px;padding:10px 16px;font-weight:900}
+#mppm .hidden{display:none!important}
+#mppm .toast{position:fixed;z-index:999;left:50%;bottom:20px;transform:translateX(-50%);background:#fff4cf;border:3px solid #875026;border-radius:18px;padding:12px 18px;font-weight:900;box-shadow:var(--shadow);display:none;max-width:90%;text-align:center}
+#mppm .toast.show{display:block;animation:pop .25s ease}
+@keyframes pop{from{transform:translate(-50%,12px);opacity:0}to{transform:translate(-50%,0);opacity:1}}
+@media(max-width:650px){
+ #mppm{border-width:3px;border-radius:15px}
+ #mppm .screen{min-height:760px;padding:80px 10px 25px}
+ #mppm .hero{min-height:760px}
+ #mppm .topbar{left:6px;right:6px;top:7px;align-items:flex-start}
+ #mppm .pill{font-size:12px;padding:6px 8px;border-width:2px}
+ #mppm .music-btn{font-size:12px;padding:6px 8px;border-width:2px}
+ #mppm .map-area{height:660px}
+ #mppm .mission{width:44%;min-height:180px;padding:8px 5px;border-width:3px}
+ #mppm .mission .pic{height:75px;font-size:46px}
+ #mppm .mission h3{font-size:13px}.mission p{font-size:10px}
+ #mppm #m1{top:4%;left:3%}#mppm #m2{top:4%;right:3%}
+ #mppm #m3{bottom:4%;left:3%}#mppm #m4{bottom:4%;right:3%}
+ #mppm .map-player{font-size:36px;left:45%;top:46%}
+ #mppm .lesson-grid{grid-template-columns:1fr}
+ #mppm .quiz-box{padding:15px}
+ #mppm .btn{font-size:15px;padding:11px 17px}
+}
+@media(prefers-reduced-motion:reduce){#mppm *,#mppm *:before,#mppm *:after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="mppm">
+  <div class="topbar">
+    <button class="music-btn" id="musicBtn" type="button">🎵 Muzik OFF</button>
+    <div class="stats">
+      <div class="pill">❤️ <span id="lives">3</span></div>
+      <div class="pill">🪙 <span id="coins">0</span></div>
+      <div class="pill">⭐ <span id="score">0</span></div>
+    </div>
+  </div>
+
+  <section class="screen hero active" id="home">
+    <div class="cloud c1">☁️</div><div class="cloud c2">☁️</div>
+    <div class="wood hero-title">🚆 MISI PENGEMBARA<br>PERHUBUNGAN MALAYSIA</div>
+    <div class="hero-art">🧑🏻‍🚀 🚆 🛣️ 🏙️</div>
+    <div class="hero-sub">🌟 Selamat datang, Detektif!<br>
+      Terokai pembangunan jaringan perhubungan moden Malaysia dan kumpulkan bukti kemajuan negara!</div>
+    <button class="btn" id="startBtn">▶ MULA PENGEMBARAAN</button>
+    <p style="font-weight:900;margin-top:25px">Belajar · Bermain · Terokai Malaysia! 🇲🇾</p>
+  </section>
+
+  <section class="screen map-screen" id="map">
+    <h1 class="wood section-title">🗺️ PETA PENGEMBARAAN</h1>
+    <div class="instruction">Pilih lokasi misi untuk belajar. Selesaikan cabaran bagi membuka lokasi seterusnya!</div>
+    <div class="map-area">
+      <div class="map-river"></div><div class="map-road"></div>
+      <div class="hill h1"></div><div class="hill h2"></div>
+      <div class="map-deco" style="top:28%;left:46%">🌳</div>
+      <div class="map-deco" style="top:39%;right:22%">🌴</div>
+      <div class="map-deco" style="bottom:27%;left:46%">🏡</div>
+      <div class="map-deco" style="bottom:28%;right:7%">🌲</div>
+      <div class="mission" id="m1" data-mission="0"><span class="num">1</span><div class="pic">🚆</div><h3>Misi 1 – Rel Moden</h3><p>Kenali sistem LRT dan MRT</p></div>
+      <div class="mission locked" id="m2" data-mission="1"><span class="num">2</span><div class="pic">🛣️</div><h3>Misi 2 – Lebuh Raya</h3><p>Terokai jaringan jalan raya</p></div>
+      <div class="mission locked" id="m3" data-mission="2"><span class="num">3</span><div class="pic">🏘️</div><h3>Misi 3 – Penghubung Desa</h3><p>Hubungan bandar dan luar bandar</p></div>
+      <div class="mission locked" id="m4" data-mission="3"><span class="num">4</span><div class="pic">⭐</div><h3>Cabaran Akhir</h3><p>Kepentingan jaringan perhubungan</p></div>
+      <div class="map-player" id="player">🧑🏻‍🚀</div>
+    </div>
+    <div class="map-footer">
+      <div class="pill">🏆 Misi: <span id="progress">0/4</span></div>
+      <button class="btn secondary small" id="homeBtn">🏠 Laman Utama</button>
+    </div>
+  </section>
+
+  <section class="screen lesson-screen" id="lesson">
+    <div style="text-align:center"><button class="btn secondary small" id="backMap">⬅ Kembali ke Peta</button></div>
+    <div class="wood lesson-head">
+      <div class="bigicon" id="lessonIcon">🚆</div>
+      <h2 id="lessonTitle">Misi 1 – Rel Moden</h2>
+      <p id="lessonSubtitle">Kenali pembangunan pengangkutan moden</p>
+    </div>
+    <div class="lesson-grid">
+      <article class="lesson-card">
+        <div class="lesson-picture" id="lessonPicture">🚆🚉</div>
+        <h3>📖 Jom Belajar!</h3>
+        <div id="lessonText"></div>
+      </article>
+      <article class="lesson-card">
+        <h3>🌟 Mengapa penting?</h3>
+        <ul id="lessonBenefits"></ul>
+        <div class="fact"><b>💡 Ingat!</b><br><span id="lessonFact"></span></div>
+      </article>
+    </div>
+    <div class="actions"><button class="btn" id="quizStart">🎯 MULAKAN CABARAN</button></div>
+  </section>
+
+  <section class="screen quiz-screen" id="quiz">
+    <div style="text-align:center"><button class="btn secondary small" id="backLesson">⬅ Kembali Belajar</button></div>
+    <div class="quiz-box">
+      <div class="quiz-icon" id="quizIcon">🎯</div>
+      <h2 id="quizTitle">Cabaran Detektif</h2>
+      <div class="progress"><span id="quizProgress"></span></div>
+      <p id="questionNumber">Soalan 1 / 3</p>
+      <h3 id="questionText"></h3>
+      <div class="answers" id="answerList"></div>
+      <div class="feedback" id="feedback" aria-live="polite"></div>
+      <button class="btn hidden" id="nextQuestion">SOALAN SETERUSNYA ➜</button>
+    </div>
+  </section>
+
+  <section class="screen final-screen" id="final">
+    <div class="certificate">
+      <div class="trophy">🏆</div>
+      <h1>MISI TAMAT!</h1>
+      <h2>TAHNIAH, DETEKTIF!</h2>
+      <p>Anda telah berjaya menerokai pencapaian jaringan perhubungan moden di Malaysia!</p>
+      <hr>
+      <h2>🌟 Pencapaian Anda</h2>
+      <p>Misi selesai: <b id="finalProgress">4/4</b></p>
+      <p>Syiling: <b id="finalCoins">0</b> 🪙</p>
+      <p>Mata: <b id="finalScore">0</b> ⭐</p>
+      <div class="award">🇲🇾 DETEKTIF PERHUBUNGAN NEGARA</div>
+      <p><button class="btn" id="restartBtn">🔄 MAIN SEMULA</button></p>
+      <button class="btn secondary small" id="finalHome">🏠 LAMAN UTAMA</button>
+    </div>
+  </section>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div>
+
+<script>
+(function(){
+"use strict";
+const root=document.getElementById("mppm");
+if(!root || root.dataset.ready==="yes") return;
+root.dataset.ready="yes";
+const $=id=>root.querySelector("#"+id);
+const screens=["home","map","lesson","quiz","final"];
+let unlocked=1,completed=[],coins=0,score=0,lives=3,current=0,qIndex=0,correct=0;
+let audioCtx=null,musicOn=false,musicTimer=null,melodyIndex=0;
+
+const missions=[
+{
+ icon:"🚆",title:"Rel Moden",subtitle:"Pembangunan sistem LRT dan MRT",
+ picture:"🚆🚉",
+ text:`<p>Malaysia membangunkan <b>sistem pengangkutan moden</b> seperti <b>Light Rail Transit (LRT)</b> dan <b>Mass Rapid Transit (MRT)</b>.</p><p>Sistem ini menyediakan kemudahan pengangkutan awam yang membantu penduduk bergerak antara kawasan di bandar.</p>`,
+ benefits:["Memudahkan pergerakan manusia.","Membantu perjalanan menjadi lebih lancar.","Menghubungkan kawasan-kawasan bandar.","Menyokong aktiviti ekonomi."],
+ fact:"LRT dan MRT ialah contoh sistem pengangkutan moden yang dibangunkan di Malaysia.",
+ questions:[
+  {q:"Antara berikut, yang manakah sistem pengangkutan moden di Malaysia?",a:["LRT dan MRT","Kereta lembu","Sampan"],c:0,why:"LRT dan MRT merupakan sistem pengangkutan moden."},
+  {q:"Apakah tujuan pembangunan LRT dan MRT?",a:["Menyukarkan perjalanan","Memudahkan pergerakan manusia","Mengasingkan kawasan"],c:1,why:"Sistem ini membantu penduduk bergerak dengan lebih mudah."},
+  {q:"LRT dan MRT tergolong dalam sistem...",a:["Pengangkutan moden","Pertanian tradisional","Pengangkutan laut"],c:0,why:"LRT dan MRT ialah pengangkutan awam moden."}
+ ]
+},
+{
+ icon:"🛣️",title:"Jalan Raya dan Lebuh Raya",subtitle:"Pembinaan jaringan jalan raya yang terancang",
+ picture:"🚗🛣️",
+ text:`<p>Pembinaan <b>jaringan jalan raya dan lebuh raya</b> merupakan salah satu pencapaian pembangunan perhubungan di Malaysia.</p><p>Jaringan ini menghubungkan pelbagai destinasi dan membantu perjalanan manusia serta penghantaran barangan.</p>`,
+ benefits:["Memudahkan pergerakan manusia dan barangan.","Melancarkan aktiviti ekonomi.","Menghubungkan kawasan yang berbeza.","Menggalakkan pembangunan kawasan baharu."],
+ fact:"Jaringan jalan raya dan lebuh raya membantu menghubungkan kawasan bandar dengan kawasan luar bandar.",
+ questions:[
+  {q:"Apakah antara pencapaian jaringan perhubungan moden?",a:["Pembinaan lebuh raya","Penutupan semua jalan","Mengurangkan kemudahan perjalanan"],c:0,why:"Pembinaan jalan raya dan lebuh raya ialah pencapaian utama."},
+  {q:"Jaringan jalan raya membantu memudahkan pergerakan...",a:["Manusia dan barangan","Awan dan hujan","Bintang dan planet"],c:0,why:"Jalan raya membolehkan manusia dan barangan bergerak."},
+  {q:"Pembinaan lebuh raya dapat membantu...",a:["Melambatkan aktiviti ekonomi","Melancarkan aktiviti ekonomi","Menghentikan perdagangan"],c:1,why:"Perjalanan dan penghantaran yang lebih lancar menyokong ekonomi."}
+ ]
+},
+{
+ icon:"🏘️",title:"Penghubung Bandar dan Luar Bandar",subtitle:"Kemudahan pengangkutan menghubungkan kawasan",
+ picture:"🏙️🚌🏡",
+ text:`<p>Kemudahan pengangkutan disediakan untuk <b>menghubungkan kawasan bandar dan luar bandar</b>.</p><p>Hubungan yang lebih baik membolehkan penduduk, hasil keluaran dan barangan bergerak antara kawasan dengan lebih mudah.</p>`,
+ benefits:["Menghubungkan penduduk di bandar dan luar bandar.","Memudahkan pergerakan barangan.","Membantu aktiviti ekonomi berkembang.","Menggalakkan pembangunan kawasan baharu."],
+ fact:"Jaringan perhubungan yang baik membantu kawasan bandar dan luar bandar saling berhubung.",
+ questions:[
+  {q:"Kemudahan pengangkutan menghubungkan kawasan...",a:["Bandar dan luar bandar","Sekolah dan planet","Gunung dan awan sahaja"],c:0,why:"Jaringan perhubungan menghubungkan bandar dan luar bandar."},
+  {q:"Apakah kesan hubungan pengangkutan yang baik?",a:["Pergerakan manusia dan barangan lebih mudah","Semua aktiviti ekonomi terhenti","Kawasan menjadi terasing"],c:0,why:"Perhubungan yang baik memudahkan pergerakan."},
+  {q:"Pembangunan jaringan perhubungan boleh menggalakkan...",a:["Pembangunan kawasan baharu","Pengasingan penduduk","Penutupan laluan"],c:0,why:"Akses pengangkutan boleh menggalakkan pembangunan kawasan baharu."}
+ ]
+},
+{
+ icon:"⭐",title:"Kepentingan Jaringan Perhubungan",subtitle:"Buktikan bagaimana perhubungan memajukan negara",
+ picture:"🇲🇾🚆🛣️",
+ text:`<p>Jaringan perhubungan moden yang terancang membawa pelbagai manfaat kepada negara dan rakyat.</p><p>Teliti lima kepentingan berikut sebelum menjawab cabaran akhir.</p>`,
+ benefits:["Memudahkan pergerakan manusia dan barangan.","Melancarkan aktiviti ekonomi.","Menggalakkan pembangunan kawasan baharu.","Menyokong kesinambungan pembangunan ekonomi.","Meningkatkan kesejahteraan rakyat."],
+ fact:"Jaringan perhubungan yang baik menyokong pembangunan ekonomi dan meningkatkan kesejahteraan rakyat.",
+ questions:[
+  {q:"Apakah kepentingan jaringan perhubungan kepada ekonomi?",a:["Melancarkan aktiviti ekonomi","Menghentikan urusan jual beli","Menyukarkan penghantaran"],c:0,why:"Perhubungan yang lancar membantu kegiatan ekonomi."},
+  {q:"Jaringan perhubungan menggalakkan...",a:["Pembangunan kawasan baharu","Kawasan semakin terasing","Penutupan kemudahan awam"],c:0,why:"Kemudahan pengangkutan boleh merangsang pembangunan kawasan."},
+  {q:"Antara berikut, yang manakah manfaat kepada rakyat?",a:["Meningkatkan kesejahteraan rakyat","Menyukarkan kehidupan harian","Menghalang pergerakan"],c:0,why:"Kemudahan perhubungan menyokong kesejahteraan rakyat."},
+  {q:"Jaringan perhubungan moden membantu kesinambungan...",a:["Pembangunan ekonomi","Kesesakan sahaja","Pengasingan kawasan"],c:0,why:"Perhubungan menyokong pembangunan ekonomi secara berterusan."},
+  {q:"Pilih pernyataan yang merangkumi kepentingan jaringan perhubungan.",a:["Memudahkan pergerakan, ekonomi dan pembangunan","Menghalang pergerakan dan perdagangan","Mengasingkan bandar dan luar bandar"],c:0,why:"Jaringan perhubungan membawa manfaat kepada pergerakan, ekonomi dan pembangunan."}
+ ]
+}
+];
+
+function show(id){
+ screens.forEach(s=>$(s).classList.toggle("active",s===id));
+ root.scrollIntoView({behavior:"smooth",block:"start"});
+}
+function toast(msg){
+ const t=$("toast");t.textContent=msg;t.classList.add("show");
+ clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.remove("show"),2300);
+}
+function update(){
+ $("lives").textContent=lives;$("coins").textContent=coins;$("score").textContent=score;
+ $("progress").textContent=completed.length+"/4";
+ missions.forEach((m,i)=>{
+  const card=$("m"+(i+1));
+  card.classList.toggle("locked",i>=unlocked);
+  card.classList.toggle("done",completed.includes(i));
+ });
+}
+function openMission(i){
+ if(i>=unlocked){playTone(180,.12);toast("🔒 Selesaikan misi sebelumnya dahulu!");return;}
+ current=i;const d=missions[i];
+ $("lessonIcon").textContent=d.icon;
+ $("lessonTitle").textContent="Misi "+(i+1)+" – "+d.title;
+ $("lessonSubtitle").textContent=d.subtitle;
+ $("lessonPicture").textContent=d.picture;
+ $("lessonText").innerHTML=d.text;
+ $("lessonBenefits").innerHTML=d.benefits.map(x=>"<li>"+x+"</li>").join("");
+ $("lessonFact").textContent=d.fact;
+ show("lesson");playTone(620,.12);
+}
+function startQuiz(){
+ qIndex=0;correct=0;show("quiz");renderQuestion();
+}
+function renderQuestion(){
+ const d=missions[current],q=d.questions[qIndex],total=d.questions.length;
+ $("quizIcon").textContent=d.icon;
+ $("quizTitle").textContent=current===3?"Cabaran Akhir – Detektif Perhubungan":"Cabaran Detektif – Misi "+(current+1);
+ $("questionNumber").textContent="Soalan "+(qIndex+1)+" / "+total;
+ $("questionText").textContent=q.q;
+ $("quizProgress").style.width=(qIndex/total*100)+"%";
+ $("feedback").textContent="Pilih jawapan yang paling tepat.";
+ $("nextQuestion").classList.add("hidden");
+ $("nextQuestion").textContent=qIndex===total-1?"SELESAI CABARAN 🏆":"SOALAN SETERUSNYA ➜";
+ $("answerList").innerHTML="";
+ q.a.forEach((answer,i)=>{
+  const b=document.createElement("button");b.type="button";b.className="answer";
+  b.textContent=["A. ","B. ","C. "][i]+answer;
+  b.addEventListener("click",()=>checkAnswer(i,b));$("answerList").appendChild(b);
+ });
+}
+function checkAnswer(choice,button){
+ const q=missions[current].questions[qIndex];
+ const buttons=[...$("answerList").querySelectorAll("button")];
+ buttons.forEach(b=>b.disabled=true);
+ if(choice===q.c){
+  correct++;score+=20;coins+=10;button.classList.add("correct");
+  $("feedback").textContent="🎉 Betul! "+q.why+" +10 syiling, +20 mata.";
+  playCorrect();
+ }else{
+  lives=Math.max(0,lives-1);button.classList.add("wrong");
+  buttons[q.c].classList.add("correct");
+  $("feedback").textContent="💡 Belum tepat. "+q.why;
+  playWrong();
+ }
+ update();$("nextQuestion").classList.remove("hidden");
+}
+function nextQuestion(){
+ const total=missions[current].questions.length;
+ if(qIndex<total-1){qIndex++;renderQuestion();return;}
+ finishMission();
+}
+function finishMission(){
+ const needed=current===3?4:2;
+ if(correct>=needed){
+  if(!completed.includes(current)){completed.push(current);coins+=20;score+=50;}
+  unlocked=Math.max(unlocked,Math.min(4,current+2));update();
+  if(completed.length===4){
+   $("finalProgress").textContent="4/4";$("finalCoins").textContent=coins;$("finalScore").textContent=score;
+   show("final");playFanfare();
+  }else{
+   show("map");toast("🏆 Tahniah! Misi selesai. Misi seterusnya telah dibuka!");playFanfare();
+  }
+ }else{
+  show("lesson");toast("Cuba lagi! Jawab sekurang-kurangnya "+needed+" soalan dengan betul.");
+ }
+}
+function ensureAudio(){
+ const AC=window.AudioContext||window.webkitAudioContext;
+ if(!AC)return null;
+ if(!audioCtx)audioCtx=new AC();
+ if(audioCtx.state==="suspended")audioCtx.resume();
+ return audioCtx;
+}
+function playTone(freq,duration=.16,type="sine",volume=.055){
+ try{
+  const ctx=ensureAudio();if(!ctx)return;
+  const osc=ctx.createOscillator(),gain=ctx.createGain();
+  osc.type=type;osc.frequency.setValueAtTime(freq,ctx.currentTime);
+  gain.gain.setValueAtTime(volume,ctx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+duration);
+  osc.connect(gain);gain.connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+duration);
+ }catch(e){}
+}
+function playCorrect(){playTone(660,.12);setTimeout(()=>playTone(880,.18),100);}
+function playWrong(){playTone(210,.22,"triangle",.045);}
+function playFanfare(){[523,659,784,1046].forEach((n,i)=>setTimeout(()=>playTone(n,.22),i*125));}
+function stopMusic(){musicOn=false;clearTimeout(musicTimer);$("musicBtn").textContent="🎵 Muzik OFF";}
+function toggleMusic(){
+ if(musicOn){stopMusic();return;}
+ if(!ensureAudio()){toast("Audio tidak disokong oleh pelayar ini.");return;}
+ musicOn=true;$("musicBtn").textContent="🎵 Muzik ON";
+ const notes=[523,659,784,659,587,698,880,784,659,784,988,784];
+ function play(){
+  if(!musicOn)return;
+  playTone(notes[melodyIndex%notes.length],.28,"sine",.025);
+  melodyIndex++;musicTimer=setTimeout(play,390);
+ }
+ play();
+}
+function reset(){
+ unlocked=1;completed=[];coins=0;score=0;lives=3;current=0;qIndex=0;correct=0;
+ update();stopMusic();show("map");
+}
+$("startBtn").addEventListener("click",()=>{show("map");playTone(600,.14);});
+$("homeBtn").addEventListener("click",()=>show("home"));
+$("finalHome").addEventListener("click",()=>show("home"));
+$("backMap").addEventListener("click",()=>show("map"));
+$("backLesson").addEventListener("click",()=>show("lesson"));
+$("quizStart").addEventListener("click",startQuiz);
+$("nextQuestion").addEventListener("click",nextQuestion);
+$("restartBtn").addEventListener("click",reset);
+$("musicBtn").addEventListener("click",toggleMusic);
+root.querySelectorAll(".mission").forEach(card=>card.addEventListener("click",()=>openMission(Number(card.dataset.mission))));
+update();
+})();
+</script>
+</body>
+</html>
